@@ -1,5 +1,0 @@
-pip freeze > requirements.txt
-
-
-gcloud functions deploy hello_function --entry-point hello --runtime python38 --trigger-http
-gcloud functions deploy bye_function --entry-point bye --runtime python38 --trigger-http

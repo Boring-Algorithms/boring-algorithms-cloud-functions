@@ -14,4 +14,8 @@
 .gitignore
 
 # Python pycache:
+.env
 __pycache__/
+start.bat
+deployment.txt
+virtual_env/
