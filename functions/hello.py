@@ -14,4 +14,4 @@ def hello_http(request):
     return 'Hello2 {}!'.format(escape(name))
 
 def hello_http2(request):
-    return "Hello"
+    return "Hello Again"
