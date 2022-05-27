@@ -8,17 +8,31 @@ algorithm_to_function = {
     "python_sort": python_sort
 }
 
-algorithm_dict = {
-    "python_sort": {
-        "name": "python_sort",
-        "type": "sort",
-        "created_by": "python"
+algorithm_array = [
+    {
+        "id": "python_sort",
+        "description": "Python Default Sort Algorithm",
+        "type": "numeric_sort",
+        "created_by": "Python"
+    },
+    {
+        "id": "pedro_sort",
+        "description": "Custom Implementation of sorting array",
+        "type": "numeric_sort",
+        "created_by": "Pedro"
+    },
+    {
+        "id": "binary_search",
+        "description": "Binary Search Implementation",
+        "type": "search",
+        "created_by": "Pedro"
     }
-}
+]
+
 
 
 def get_algorithms_dict():
-    return json.dumps(algorithm_dict)
+    return json.dumps(algorithm_array)
 
 def execute_algorithm_by_id(id, data):
 

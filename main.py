@@ -20,26 +20,30 @@ cred = credentials.Certificate("firebase-adminsdk.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
+headers = {
+    'Access-Control-Allow-Origin': '*'
+}
+
 @functions_framework.http
 def get_alrotithms(request):
     try:
-        return get_algorithms_dict()
+        return get_algorithms_dict(), 200, headers
     except Exception as e:
-        return f"Bad Request - {e}", 400
+        return f"Bad Request - {e}", 400, headers
 
 @functions_framework.http
 def execute_algorithm(request):
     try:
         id = request.json["algorithm_id"]
         data = request.json["data"]
-        return execute_algorithm_by_id(id, data)
+        return execute_algorithm_by_id(id, data), 200, headers
     except Exception as e:
         return f"Bad Request - {e}", 400
 
 @functions_framework.http
 def get_test_suites(request):
     try:
-        return get_available_test_suites()
+        return get_available_test_suites(), 200, headers
     except Exception as e:
         return f"Bad Request - {e}", 400
 
@@ -48,7 +52,7 @@ def execute_test_suite(request):
     try:
         algo_id = request.json["algorithm_id"]
         suite_id = request.json["test_suite_id"]
-        return execute_test_suite_function(algo_id, suite_id, db)
+        return execute_test_suite_function(algo_id, suite_id, db), 200, headers
     except Exception as e:
         return f"Bad Request - {e}", 400
 
@@ -59,7 +63,7 @@ def drop_collection(request):
             return "Token not valid", 401
         else:
             collection = request.json["collection"]
-            return delete_collection(db, collection)
+            return delete_collection(db, collection), 200, headers
     except Exception as e:
         return f"Bad Request - {e}", 400
     
