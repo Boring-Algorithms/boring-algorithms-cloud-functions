@@ -13,21 +13,21 @@ test_suites = {
         "description": "Test suite of multiple array of letters."
     }
 }
+
 check_functions_dict = {
     "array_of_numbers": check_is_sorted
 }
-    
 
-
-def execute_test_suite_function(algorithm_id, test_type):
-    test_data = get_test_data(test_type)
-    res = {"executions": [], "invalid_tests_count": 0}
+def execute_test_suite_function(algorithm_id, test_suite, db):
+    test_data = get_test_data(test_suite)
+    res = {"executions": [], "invalid_tests_count": 0, "algorithm_id": algorithm_id, "test_suite": test_suite, "amount_of_tests": 0}
     for data in test_data:
         execution = execute_algorithm_by_id(algorithm_id, data).json
         res["executions"].append(execution["execution_time"])
-        if(not check_functions_dict[test_type](execution["algorithm_response"])):
+        res["amount_of_tests"] += 1
+        if(not check_functions_dict[test_suite](execution["algorithm_response"])):
             res["invalid_tests_count"] += 1
-        
+    insert_test_suite_into_db(db, res)
     return jsonify(res)
 
 def get_test_data(type):
@@ -46,3 +46,5 @@ def get_basic_sort_test_suite():
 def get_available_test_suites():
     return json.dumps(test_suites)
 
+def insert_test_suite_into_db(db, res):
+    db.collection(u'test_suite_executions').add(res)
