@@ -27,7 +27,7 @@ def execute_test_suite_function(algorithm_id, test_suite, db):
         res["amount_of_tests"] += 1
         if(not check_functions_dict[test_suite](execution["algorithm_response"])):
             res["invalid_tests_count"] += 1
-    insert_test_suite_into_db(db, res)
+    insert_test_execution_into_db(db, res)
     return jsonify(res)
 
 def get_test_data(type):
@@ -46,5 +46,16 @@ def get_basic_sort_test_suite():
 def get_available_test_suites():
     return json.dumps(test_suites)
 
-def insert_test_suite_into_db(db, res):
+def insert_test_execution_into_db(db, res):
     db.collection(u'test_suite_executions').add(res)
+
+def get_all_test_executions(db, request):
+    res = []
+    users_ref = db.collection(u'test_suite_executions')
+    docs = users_ref.stream()
+
+    for doc in docs:
+        obj = doc.to_dict()
+        obj["id"] = doc.id
+        res.append(obj)
+    return jsonify(res)

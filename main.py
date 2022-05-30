@@ -67,3 +67,9 @@ def drop_collection(request):
     except Exception as e:
         return f"Bad Request - {e}", 400
     
+@functions_framework.http
+def get_test_executions(request):
+    try:
+        return get_all_test_executions(db, request), 200, headers
+    except Exception as e:
+        return f"Bad Request - {e}", 400
